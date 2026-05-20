@@ -1,17 +1,325 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#FF4D00" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="ALL" />
-    <link rel="manifest" href="/manifest.json" />
-    <title>ALL — App Restaurante</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="ALL Resto"/>
+<meta name="theme-color" content="#FF4D00"/>
+<link rel="manifest" href="manifest.json"/>
+<title>ALL — App Restaurante</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,sans-serif;background:#FF4D00;min-height:100vh}
+.bg{min-height:100vh;background:#FF4D00;display:flex;justify-content:center;align-items:flex-start;padding:0}
+.login-card{width:100%;max-width:100%;background:#fff;border-radius:0;overflow:hidden;min-height:100vh}
+.login-hero{background:#1A1A1A;padding:40px 24px 28px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.login-title{font-size:24px;font-weight:700;letter-spacing:-1px;color:#fff}
+.login-sub{font-size:12px;color:rgba(255,255,255,0.4)}
+.login-body{padding:24px}
+.field-label{font-size:12px;font-weight:600;color:#1A1A1A;margin-bottom:8px}
+.rest-opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:2px solid #eee;cursor:pointer;background:#fafafa;margin-bottom:10px;transition:.15s}
+.rest-opt.sel{border-color:#FF4D00;background:#FFF4EF}
+.rest-emoji{font-size:24px;width:44px;height:44px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;border:1px solid #eee;flex-shrink:0}
+.rest-nombre{font-size:14px;font-weight:600;color:#1A1A1A}
+.rest-cat{font-size:11px;color:#888;margin-top:2px}
+.check{margin-left:auto;width:22px;height:22px;border-radius:50%;background:#FF4D00;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0}
+.input{width:100%;padding:12px 14px;font-size:14px;border-radius:10px;border:1.5px solid #eee;background:#fafafa;color:#1A1A1A;margin-bottom:16px;outline:none}
+.btn-main{width:100%;padding:15px;background:#FF4D00;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer}
+.phone{width:100%;max-width:100%;background:#fff;border-radius:0;overflow:hidden;min-height:100vh}
+.topbar{padding:48px 16px 12px;background:#fff;border-bottom:1px solid #FFE8DC;display:flex;align-items:center;gap:8px}
+.topbar-name{font-size:15px;font-weight:700;color:#1A1A1A}
+.topbar-sub{font-size:11px;color:#888;margin-top:2px}
+.estado-badge{margin-left:auto;display:flex;align-items:center;gap:5px}
+.dot{width:8px;height:8px;border-radius:50%}
+.tabs{display:flex;background:#fff;border-bottom:1px solid #FFE8DC}
+.tab{flex:1;padding:12px 4px;font-size:12px;font-weight:600;text-align:center;cursor:pointer;color:#ccc;border-bottom:2px solid transparent}
+.tab.active{color:#FF4D00;border-bottom-color:#FF4D00}
+.scroll{padding:14px;background:#FFF4EF;min-height:calc(100vh - 140px)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;border:1px solid #FFE8DC}
+.toggle-label{font-size:13px;font-weight:600;color:#1A1A1A}
+.toggle-sub{font-size:11px;color:#888;margin-top:2px}
+.toggle-track{width:46px;height:26px;border-radius:20px;position:relative;cursor:pointer;transition:.2s;flex-shrink:0}
+.toggle-thumb{width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.stat{background:#fff;border-radius:12px;padding:12px;border:1px solid #FFE8DC;text-align:center}
+.stat-val{font-size:22px;font-weight:700;color:#1A1A1A}
+.stat-label{font-size:10px;color:#888;margin-top:2px;font-weight:500}
+.section-title{font-size:10px;font-weight:600;color:#888;letter-spacing:1px;margin-bottom:10px}
+.pedido-card{background:#fff;border-radius:14px;border:1px solid #FFE8DC;margin-bottom:12px;overflow:hidden}
+.pedido-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #FFE8DC}
+.pedido-num{font-size:12px;font-weight:700;color:#FF4D00}
+.pedido-cliente{font-size:13px;font-weight:600;color:#1A1A1A;margin-top:2px}
+.pedido-hora{font-size:11px;color:#888}
+.tag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px}
+.tag-nuevo{background:#FFF0E5;color:#FF4D00;border:1px solid #FFE8DC}
+.tag-prep{background:#FFF9E5;color:#B8860B;border:1px solid #FFE8A0}
+.tag-ok{background:#E8F5E9;color:#2D6A2D;border:1px solid #C8E6C9}
+.pedido-items{padding:10px 14px;border-bottom:1px solid #FFE8DC;font-size:12px;color:#555;line-height:2}
+.pedido-footer{padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.pedido-total{font-size:13px;font-weight:700;color:#1A1A1A}
+.pedido-dir{font-size:11px;color:#888;margin-top:2px}
+.btn-confirmar{padding:8px 16px;border-radius:20px;border:none;font-size:12px;font-weight:700;cursor:pointer;background:#FF4D00;color:#fff}
+.btn-listo{padding:8px 16px;border-radius:20px;border:none;font-size:12px;font-weight:700;cursor:pointer;background:#2D6A2D;color:#fff}
+.cat-label{font-size:10px;font-weight:700;color:#FF4D00;letter-spacing:1px;text-transform:uppercase;margin:14px 0 8px}
+.menu-item{background:#fff;border-radius:12px;border:1px solid #FFE8DC;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.menu-nombre{font-size:13px;font-weight:600;color:#1A1A1A}
+.menu-desc{font-size:11px;color:#888;margin-top:2px}
+.menu-precio{font-size:14px;font-weight:700;color:#FF4D00}
+.icon-btn{width:32px;height:32px;border-radius:8px;background:#FFF4EF;border:1px solid #FFE8DC;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px}
+.btn-add-prod{width:100%;padding:13px;background:#FFF4EF;color:#FF4D00;border:1.5px dashed #FF4D00;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;margin-top:6px}
+.info-card{background:#fff;border-radius:12px;border:1px solid #FFE8DC;padding:14px;margin-bottom:10px}
+.info-label{font-size:11px;color:#888;margin-bottom:4px}
+.info-val{font-size:14px;font-weight:600;color:#1A1A1A}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="screen-login" class="bg">
+  <div class="login-card">
+    <div class="login-hero">
+      <svg width="64" height="64" viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="26" fill="none" stroke="#FF4D00" stroke-width="4"
+          stroke-dasharray="140 24" stroke-dashoffset="-4" stroke-linecap="round"/>
+        <circle cx="50" cy="13" r="4" fill="#FFD166"/>
+        <text x="30" y="38" text-anchor="middle" font-family="system-ui"
+          font-weight="700" font-size="20" letter-spacing="-1" fill="white">ALL</text>
+      </svg>
+      <div class="login-title">App Restaurante</div>
+      <div class="login-sub">Ingresá con tu cuenta</div>
+    </div>
+    <div class="login-body">
+      <div class="field-label">Seleccioná tu restaurante</div>
+      <div class="rest-opt sel" onclick="selectRest(this,0)">
+        <div class="rest-emoji">🦞</div>
+        <div><div class="rest-nombre">El Bodegón NKT</div><div class="rest-cat">Mariscos · Pizzas · Sándwiches</div></div>
+        <div class="check">✓</div>
+      </div>
+      <div class="rest-opt" onclick="selectRest(this,1)">
+        <div class="rest-emoji">🍕</div>
+        <div><div class="rest-nombre">Colantonio's</div><div class="rest-cat">Pizza napolitana · Empanadas</div></div>
+      </div>
+      <div class="rest-opt" onclick="selectRest(this,2)">
+        <div class="rest-emoji">🍣</div>
+        <div><div class="rest-nombre">Kusama Sushi</div><div class="rest-cat">Sushi · Mariscos</div></div>
+      </div>
+      <div class="field-label" style="margin-top:20px">Contraseña</div>
+      <input type="password" placeholder="••••••••" class="input"/>
+      <button class="btn-main" onclick="ingresar()">Ingresar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="screen-panel" class="bg hidden">
+  <div class="phone">
+    <div class="topbar">
+      <div>
+        <div class="topbar-name" id="rest-nombre">🦞 El Bodegón NKT</div>
+        <div class="topbar-sub">Panel del local</div>
+      </div>
+      <div class="estado-badge">
+        <div class="dot" id="estado-dot" style="background:#2D6A2D"></div>
+        <span id="estado-texto" style="color:#2D6A2D;font-size:12px;font-weight:600">Abierto</span>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('pedidos',this)">Pedidos</div>
+      <div class="tab" onclick="switchTab('menu',this)">Menú</div>
+      <div class="tab" onclick="switchTab('local',this)">Mi local</div>
+    </div>
+    <div id="tab-pedidos" class="scroll">
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Estado del local</div>
+          <div class="toggle-sub" id="toggle-sub-text">Recibiendo pedidos</div>
+        </div>
+        <div class="toggle-track" id="toggle-track" style="background:#2D6A2D" onclick="toggleAbierto()">
+          <div class="toggle-thumb" id="toggle-thumb" style="left:23px"></div>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat" style="background:#FF4D00">
+          <div class="stat-val" style="color:#fff">3</div>
+          <div class="stat-label" style="color:rgba(255,255,255,0.7)">Nuevos</div>
+        </div>
+        <div class="stat"><div class="stat-val">12</div><div class="stat-label">Hoy</div></div>
+        <div class="stat"><div class="stat-val">$48k</div><div class="stat-label">Ingresos</div></div>
+      </div>
+      <div class="section-title">PEDIDOS ACTIVOS</div>
+      <div class="pedido-card">
+        <div class="pedido-head">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span class="pedido-num">#1047</span>
+              <span class="tag tag-nuevo">NUEVO</span>
+            </div>
+            <div class="pedido-cliente">Martín Rodríguez</div>
+          </div>
+          <div class="pedido-hora">18:52</div>
+        </div>
+        <div class="pedido-items">2× Pizza de mariscos<br>1× Sándwich de lomo</div>
+        <div class="pedido-footer">
+          <div><div class="pedido-total">$12.400</div><div class="pedido-dir">📍 San Martín 542</div></div>
+          <button class="btn-confirmar">Confirmar ✓</button>
+        </div>
+      </div>
+      <div class="pedido-card">
+        <div class="pedido-head">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span class="pedido-num">#1046</span>
+              <span class="tag tag-prep">PREPARANDO</span>
+            </div>
+            <div class="pedido-cliente">Laura Gómez</div>
+          </div>
+          <div class="pedido-hora">18:38</div>
+        </div>
+        <div class="pedido-items">1× Cazuela de mariscos</div>
+        <div class="pedido-footer">
+          <div><div class="pedido-total">$9.800</div><div class="pedido-dir">📍 Mitre 1200</div></div>
+          <button class="btn-listo">Listo 🏍</button>
+        </div>
+      </div>
+      <div class="pedido-card">
+        <div class="pedido-head">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span class="pedido-num">#1045</span>
+              <span class="tag tag-ok">ENTREGADO</span>
+            </div>
+            <div class="pedido-cliente">Carlos Pérez</div>
+          </div>
+          <div class="pedido-hora">18:10</div>
+        </div>
+        <div class="pedido-items">3× Empanada de mariscos</div>
+        <div class="pedido-footer">
+          <div><div class="pedido-total">$4.200</div><div class="pedido-dir">📍 O'Higgins 880</div></div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-menu" class="scroll hidden">
+      <div class="cat-label">Mariscos</div>
+      <div class="menu-item">
+        <div style="flex:1"><div class="menu-nombre">Cazuela de mariscos</div><div class="menu-desc">Mejillones, calamares, langostinos</div></div>
+        <div class="menu-precio">$6.800</div>
+        <div class="icon-btn">✏️</div>
+        <div class="icon-btn" style="background:#FFF0F0">🗑</div>
+      </div>
+      <div class="menu-item">
+        <div style="flex:1"><div class="menu-nombre">Empanadas de mariscos</div><div class="menu-desc">x3 unidades, al horno</div></div>
+        <div class="menu-precio">$4.200</div>
+        <div class="icon-btn">✏️</div>
+        <div class="icon-btn" style="background:#FFF0F0">🗑</div>
+      </div>
+      <button class="btn-add-prod">+ Agregar producto</button>
+      <div class="cat-label">Pizzas</div>
+      <div class="menu-item">
+        <div style="flex:1"><div class="menu-nombre">Pizza de mariscos</div><div class="menu-desc">Mozzarella, langostinos, rúcula</div></div>
+        <div class="menu-precio">$5.900</div>
+        <div class="icon-btn">✏️</div>
+        <div class="icon-btn" style="background:#FFF0F0">🗑</div>
+      </div>
+      <button class="btn-add-prod">+ Agregar producto</button>
+    </div>
+    <div id="tab-local" class="scroll hidden">
+      <div class="info-card">
+        <div class="info-label">Restaurante</div>
+        <div class="info-val" id="local-nombre">El Bodegón NKT</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Categoría</div>
+        <div class="info-val" id="local-cat">Mariscos · Pizzas · Sándwiches</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Tiempo de entrega</div>
+        <div class="info-val">25 – 40 min</div>
+      </div>
+      <button class="btn-main" style="margin-top:16px" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var restSeleccionado = 0
+var abierto = true
+var rests = [
+  { nombre: 'El Bodegón NKT', emoji: '🦞', cat: 'Mariscos · Pizzas · Sándwiches' },
+  { nombre: "Colantonio's", emoji: '🍕', cat: 'Pizza napolitana · Empanadas' },
+  { nombre: 'Kusama Sushi', emoji: '🍣', cat: 'Sushi · Mariscos' },
+]
+
+function selectRest(el, idx) {
+  restSeleccionado = idx
+  document.querySelectorAll('.rest-opt').forEach(function(o) {
+    o.classList.remove('sel')
+    var c = o.querySelector('.check')
+    if (c) c.remove()
+  })
+  el.classList.add('sel')
+  var chk = document.createElement('div')
+  chk.className = 'check'
+  chk.textContent = '✓'
+  el.appendChild(chk)
+}
+
+function ingresar() {
+  var r = rests[restSeleccionado]
+  document.getElementById('rest-nombre').textContent = r.emoji + ' ' + r.nombre
+  document.getElementById('local-nombre').textContent = r.nombre
+  document.getElementById('local-cat').textContent = r.cat
+  document.getElementById('screen-login').classList.add('hidden')
+  document.getElementById('screen-panel').classList.remove('hidden')
+}
+
+function cerrarSesion() {
+  document.getElementById('screen-panel').classList.add('hidden')
+  document.getElementById('screen-login').classList.remove('hidden')
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active') })
+  el.classList.add('active')
+  document.getElementById('tab-pedidos').classList.add('hidden')
+  document.getElementById('tab-menu').classList.add('hidden')
+  document.getElementById('tab-local').classList.add('hidden')
+  document.getElementById('tab-' + tab).classList.remove('hidden')
+}
+
+function toggleAbierto() {
+  abierto = !abierto
+  var track = document.getElementById('toggle-track')
+  var thumb = document.getElementById('toggle-thumb')
+  var dot = document.getElementById('estado-dot')
+  var texto = document.getElementById('estado-texto')
+  var sub = document.getElementById('toggle-sub-text')
+  if (abierto) {
+    track.style.background = '#2D6A2D'
+    thumb.style.left = '23px'
+    dot.style.background = '#2D6A2D'
+    texto.style.color = '#2D6A2D'
+    texto.textContent = 'Abierto'
+    sub.textContent = 'Recibiendo pedidos'
+  } else {
+    track.style.background = '#ddd'
+    thumb.style.left = '3px'
+    dot.style.background = '#ccc'
+    texto.style.color = '#ccc'
+    texto.textContent = 'Cerrado'
+    sub.textContent = 'Local pausado'
+  }
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js')
+  })
+}
+</script>
+</body>
 </html>
